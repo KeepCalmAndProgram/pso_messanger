@@ -13,7 +13,7 @@ class _SignInState extends State<SignIn> {
           title: Image.asset(
             "assets/images/logo.png",
             height: 40,
-            color: Colors.white,
+            color: Colors.black,
           ),
         ),
         body: Container(

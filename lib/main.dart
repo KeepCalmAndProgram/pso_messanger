@@ -24,6 +24,10 @@ class MyApp extends StatelessWidget {
             color: Colors.white,
             fontSize: 16,
           ),
+          bodyText2: TextStyle(
+            color: Colors.white,
+            fontSize: 17,
+          ),
         ),
         inputDecorationTheme: InputDecorationTheme(
           hintStyle: TextStyle(color: Colors.blue),

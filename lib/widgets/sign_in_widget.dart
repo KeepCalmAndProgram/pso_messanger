@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pso_messanger/configuration/app_colors.dart';
+import '../configuration/app_text.dart';
+import '../configuration/app_path.dart';
+import '../configuration/app_colors.dart';
 
 class SignIn extends StatefulWidget {
   @override
@@ -13,9 +15,9 @@ class _SignInState extends State<SignIn> {
     return Scaffold(
       appBar: AppBar(
         title: Image.asset(
-          "assets/images/logo.png",
+          AppPath.logoAsset,
           height: 40,
-          color: Colors.white70,
+          color: AppColors.primaryIconColor,
         ),
       ),
       body: SingleChildScrollView(
@@ -30,63 +32,64 @@ class _SignInState extends State<SignIn> {
                 TextField(
                   style: Theme.of(context).textTheme.bodyText1,
                   decoration: InputDecoration(
-                    hintText: "Email",
+                    hintText: AppText.emailText,
                   ),
                 ),
                 TextField(
                   style: Theme.of(context).textTheme.bodyText1,
                   decoration: InputDecoration(
-                    hintText: "Password",
+                    hintText: AppText.passwordText,
                   ),
                 ),
                 Divider(height: 22),
                 Container(
                   alignment: Alignment.centerRight,
                   child: Text(
-                    "Forgot Password?",
+                    AppText.forgotPasswordText,
                     style: Theme.of(context).textTheme.bodyText1,
                   ),
                 ),
-                SizedBox(height: 22),
+                Divider(height: 22),
                 Container(
                   alignment: Alignment.center,
                   width: MediaQuery.of(context).size.width,
                   padding: EdgeInsets.symmetric(vertical: 20),
                   decoration: BoxDecoration(
                       gradient: LinearGradient(colors: [
-                        AppColors.buttomFirstPrimaryColor,
-                        AppColors.buttomSeccondPrimaryColor
+                        AppColors.firstShadeOfButtonColor,
+                        AppColors.secondShadeOfButtonColor
                       ]),
                       borderRadius: BorderRadius.circular(30)),
                   child: Text(
-                    "Sign In",
+                    AppText.signInText,
                     style: Theme.of(context).textTheme.bodyText1,
                   ),
                 ),
-                SizedBox(height: 15),
+                Divider(height: 15),
                 Container(
                   alignment: Alignment.center,
                   width: MediaQuery.of(context).size.width,
                   padding: EdgeInsets.symmetric(vertical: 20),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: AppColors.primaryColor,
                     borderRadius: BorderRadius.circular(30),
                   ),
                   child: Text(
-                    "Sign In with Google",
-                    style: TextStyle(color: Colors.black87, fontSize: 17),
+                    AppText.signInWithGoogleText,
+                    style:
+                        TextStyle(color: AppColors.thirdaryColor, fontSize: 17),
                   ),
                 ),
-                SizedBox(height: 15),
+                Divider(height: 15),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Don't have account? ",
+                    Text(AppText.dontHaveAccountText,
                         style: Theme.of(context).textTheme.bodyText2),
                     Text(
-                      "Register now",
+                      AppText.registerNowText,
                       style: TextStyle(
-                        color: Colors.white,
+                        color: AppColors.primaryColor,
                         fontSize: 17,
                         decoration: TextDecoration.underline,
                       ),

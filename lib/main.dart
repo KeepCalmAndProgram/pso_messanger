@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pso_messanger/configuration/app_colors.dart';
-
+import './configuration/app_colors.dart';
+import './widgets/sign_up_widget.dart';
 import './widgets/sign_in_widget.dart';
 
 void main() {
@@ -15,31 +15,31 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primaryColor: AppColors.primaryColor,
-        scaffoldBackgroundColor: Color(0xff1F1F1F),
+        primaryColor: AppColors.appBarColor,
+        scaffoldBackgroundColor: AppColors.backgroundColor,
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
         textTheme: TextTheme(
           bodyText1: TextStyle(
-            color: Colors.white,
+            color: AppColors.primaryColor,
             fontSize: 16,
           ),
           bodyText2: TextStyle(
-            color: Colors.white,
+            color: AppColors.primaryColor,
             fontSize: 17,
           ),
         ),
         inputDecorationTheme: InputDecorationTheme(
-          hintStyle: TextStyle(color: Colors.blue),
+          hintStyle: TextStyle(color: AppColors.secondaryColor),
           focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.blue),
+            borderSide: BorderSide(color: AppColors.primaryColor),
           ),
           enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.white),
+            borderSide: BorderSide(color: AppColors.secondaryColor),
           ),
         ),
       ),
-      home: SignIn(),
+      home: SignUp(),
     );
   }
 }

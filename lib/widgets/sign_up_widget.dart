@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../widgets/appbar_widget.dart';
 import '../configuration/app_text.dart';
 import '../screens/chat_rooms_screen.dart';
 import '../configuration/app_path.dart';
@@ -7,6 +8,9 @@ import '../configuration/app_colors.dart';
 import '../services/auth.dart';
 
 class SignUp extends StatefulWidget {
+  final Function toggle;
+  SignUp(this.toggle);
+
   @override
   _SignUpState createState() => _SignUpState();
 }
@@ -24,13 +28,12 @@ class _SignUpState extends State<SignUp> {
   TextEditingController passwordTextEditingController =
       new TextEditingController();
 
-  signMeUp() {
+  SignMeUp() {
     if (formKey.currentState.validate()) {
       setState(() {
         isLoading = true;
       });
-      authMethods
-          .singUpwithEmailAndPassword(emailTextEditingController.text,
+      authMethods.SingUpwithEmailAndPassword(emailTextEditingController.text,
               passwordTextEditingController.text)
           .then((value) {
         //print("${value.uid}");
@@ -44,13 +47,7 @@ class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Image.asset(
-          AppPath.logoAsset,
-          height: 40,
-          color: AppColors.primaryIconColor,
-        ),
-      ),
+      appBar: appBarMain(context),
       body: isLoading
           ? Container(
               child: CircularProgressIndicator(),
@@ -114,7 +111,7 @@ class _SignUpState extends State<SignUp> {
                       Divider(height: 22),
                       GestureDetector(
                         onTap: () {
-                          signMeUp();
+                          SignMeUp();
                         },
                         child: Container(
                           alignment: Alignment.center,
@@ -153,12 +150,20 @@ class _SignUpState extends State<SignUp> {
                         children: [
                           Text(AppText.haveAccountText,
                               style: Theme.of(context).textTheme.bodyText2),
-                          Text(
-                            AppText.signInNowText,
-                            style: TextStyle(
-                              color: AppColors.primaryColor,
-                              fontSize: 17,
-                              decoration: TextDecoration.underline,
+                          GestureDetector(
+                            onTap: () {
+                              widget.toggle();
+                            },
+                            child: Container(
+                              padding: EdgeInsets.symmetric(vertical: 8),
+                              child: Text(
+                                AppText.signInNowText,
+                                style: TextStyle(
+                                  color: AppColors.primaryColor,
+                                  fontSize: 17,
+                                  decoration: TextDecoration.underline,
+                                ),
+                              ),
                             ),
                           ),
                         ],

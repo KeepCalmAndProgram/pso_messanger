@@ -1,10 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../widgets/appbar_widget.dart';
 import '../configuration/app_text.dart';
 import '../configuration/app_path.dart';
 import '../configuration/app_colors.dart';
 
 class SignIn extends StatefulWidget {
+  final Function toggle;
+  SignIn(this.toggle);
+
   @override
   _SignInState createState() => _SignInState();
 }
@@ -13,13 +17,7 @@ class _SignInState extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Image.asset(
-          AppPath.logoAsset,
-          height: 40,
-          color: AppColors.primaryIconColor,
-        ),
-      ),
+      appBar: appBarMain(context),
       body: SingleChildScrollView(
         child: Container(
           height: MediaQuery.of(context).size.height - 60,
@@ -86,12 +84,20 @@ class _SignInState extends State<SignIn> {
                   children: [
                     Text(AppText.dontHaveAccountText,
                         style: Theme.of(context).textTheme.bodyText2),
-                    Text(
-                      AppText.registerNowText,
-                      style: TextStyle(
-                        color: AppColors.primaryColor,
-                        fontSize: 17,
-                        decoration: TextDecoration.underline,
+                    GestureDetector(
+                      onTap: () {
+                        widget.toggle();
+                      },
+                      child: Container(
+                        padding: EdgeInsets.symmetric(vertical: 8),
+                        child: Text(
+                          AppText.registerNowText,
+                          style: TextStyle(
+                            color: AppColors.primaryColor,
+                            fontSize: 17,
+                            decoration: TextDecoration.underline,
+                          ),
+                        ),
                       ),
                     ),
                   ],

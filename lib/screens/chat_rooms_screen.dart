@@ -13,6 +13,15 @@ class ChatRoom extends StatefulWidget {
 class _ChatRoomState extends State<ChatRoom> {
   AuthMethods authMethods = AuthMethods();
 
+  void _signOutOnTap() {
+    authMethods.signOut();
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => AuthenticateHelper(),
+        ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,18 +29,10 @@ class _ChatRoomState extends State<ChatRoom> {
         title: Image.asset(
           AssetsPath.logoAsset,
           height: 40,
-          color: AppColors.primaryIconColor,
         ),
         actions: [
           GestureDetector(
-            onTap: () {
-              authMethods.SignOut();
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Authenticate(),
-                  ));
-            },
+            onTap: _signOutOnTap,
             child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 16),
                 child: Icon(Icons.exit_to_app)),
@@ -40,10 +41,8 @@ class _ChatRoomState extends State<ChatRoom> {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.search),
-        onPressed: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => SearchScreen()));
-        },
+        onPressed: () => Navigator.push(
+            context, MaterialPageRoute(builder: (context) => SearchScreen())),
       ),
     );
   }

@@ -33,11 +33,10 @@ class _SignUpState extends State<SignUp> {
       setState(() {
         isLoading = true;
       });
-      authMethods.SingUpwithEmailAndPassword(emailTextEditingController.text,
+      authMethods
+          .singUpWithEmailAndPassword(emailTextEditingController.text,
               passwordTextEditingController.text)
           .then((value) {
-        //print("${value.uid}");
-
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => ChatRoom()));
       });
@@ -151,9 +150,7 @@ class _SignUpState extends State<SignUp> {
                           Text(AppText.haveAccountText,
                               style: Theme.of(context).textTheme.bodyText2),
                           GestureDetector(
-                            onTap: () {
-                              widget.toggle();
-                            },
+                            onTap: () => widget.toggle(),
                             child: Container(
                               padding: EdgeInsets.symmetric(vertical: 8),
                               child: Text(

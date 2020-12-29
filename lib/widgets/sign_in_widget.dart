@@ -85,9 +85,7 @@ class _SignInState extends State<SignIn> {
                     Text(AppText.dontHaveAccountText,
                         style: Theme.of(context).textTheme.bodyText2),
                     GestureDetector(
-                      onTap: () {
-                        widget.toggle();
-                      },
+                      onTap: () => widget.toggle(),
                       child: Container(
                         padding: EdgeInsets.symmetric(vertical: 8),
                         child: Text(

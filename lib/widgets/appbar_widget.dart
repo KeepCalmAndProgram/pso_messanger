@@ -7,7 +7,6 @@ Widget appBarMain(BuildContext context) {
     title: Image.asset(
       AssetsPath.logoAsset,
       height: 40,
-      color: AppColors.primaryIconColor,
     ),
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.only(

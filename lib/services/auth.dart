@@ -8,7 +8,7 @@ class AuthMethods {
     return user != null ? User(userId: user.uid) : null;
   }
 
-  Future SignInWithEmailAndPassword(String email, String password) async {
+  Future signInWithEmailAndPassword(String email, String password) async {
     try {
       AuthResult result = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
@@ -19,7 +19,7 @@ class AuthMethods {
     }
   }
 
-  Future SingUpwithEmailAndPassword(String email, String password) async {
+  Future singUpWithEmailAndPassword(String email, String password) async {
     try {
       AuthResult result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
@@ -30,7 +30,7 @@ class AuthMethods {
     }
   }
 
-  Future ResetPassword(String email) async {
+  Future resetPassword(String email) async {
     try {
       return await _auth.sendPasswordResetEmail(email: email);
     } catch (e) {
@@ -38,7 +38,7 @@ class AuthMethods {
     }
   }
 
-  Future SignOut() async {
+  Future signOut() async {
     try {
       return await _auth.signOut();
     } catch (e) {

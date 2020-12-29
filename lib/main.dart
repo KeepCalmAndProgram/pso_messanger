@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pso_messanger/helper/authenticate_helper.dart';
+import './helper/authenticate_helper.dart';
 import './configuration/app_colors.dart';
 import './widgets/sign_up_widget.dart';
 import './widgets/sign_in_widget.dart';
@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: Authenticate(),
+      home: AuthenticateHelper(),
     );
   }
 }

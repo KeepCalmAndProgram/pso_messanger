@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "734689938032",
+    "project_id": "messanger-260a3",
+    "storage_bucket": "messanger-260a3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:734689938032:android:c2968aa91dad7ee5a1c2b5",
+        "android_client_info": {
+          "package_name": "com.example.pso_messanger"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "734689938032-vug6vriurekj7bk0jrsdatjeuqefk0uh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAyI4mnVxW4jle9kS55SptexAF0nDfCjiA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "734689938032-vug6vriurekj7bk0jrsdatjeuqefk0uh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

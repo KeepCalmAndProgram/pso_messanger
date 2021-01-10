@@ -1,17 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:pso_messanger/configuration/app_text.dart';
+import '../configuration/app_text.dart';
 import '../configuration/app_path.dart';
 import '../services/database.dart';
 import '../configuration/app_colors.dart';
 import '../widgets/appbar_widget.dart';
 
-class SearchTile extends StatelessWidget {
+class SearchTileWidget extends StatelessWidget {
   final String userName;
   final String userEmail;
 
-  SearchTile({this.userName, this.userEmail});
+  SearchTileWidget({this.userName, this.userEmail});
 
   @override
   Widget build(BuildContext context) {

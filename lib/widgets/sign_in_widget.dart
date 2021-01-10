@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:form_validator/form_validator.dart';
 import '../helper/helper_functions.dart';
 import '../screens/chat_rooms_screen.dart';
 import '../services/auth.dart';
@@ -10,52 +11,57 @@ import '../configuration/app_text.dart';
 import '../configuration/app_path.dart';
 import '../configuration/app_colors.dart';
 
-class SignIn extends StatefulWidget {
+class SignInWidget extends StatefulWidget {
   final Function _toggle;
 
-  SignIn({
+  SignInWidget({
     @required Function toggle,
   }) : _toggle = toggle;
 
   @override
-  _SignInState createState() => _SignInState();
+  _SignInWidgetState createState() => _SignInWidgetState();
 }
 
-class _SignInState extends State<SignIn> {
-  final formKey = GlobalKey<FormState>();
-  AuthMethods authMethods = AuthMethods();
-  DatabaseMethods databaseMethods = DatabaseMethods();
-  TextEditingController emailTextEditingController = TextEditingController();
-  TextEditingController passwordTextEditingController = TextEditingController();
-
+class _SignInWidgetState extends State<SignInWidget> {
   bool isLoading = false;
+
   QuerySnapshot snapshotUserInfo;
+
+  AuthMethods _authMethods = AuthMethods();
+  DatabaseMethods _databaseMethods = DatabaseMethods();
+
+  final formKey = GlobalKey<FormState>();
+  final emailValidator = ValidationBuilder().email().maxLength(50).build();
+
+  TextEditingController _emailTextEditingController = TextEditingController();
+  TextEditingController _passwordTextEditingController =
+      TextEditingController();
 
   bool signIn() {
     if (formKey.currentState.validate()) {
       HelperFunctions.saveUserEmailSharedPreference(
-          emailTextEditingController.text);
+          _emailTextEditingController.text);
 
       setState(() {
         isLoading = true;
       });
 
-      databaseMethods
-          .getUserByUserEmail(emailTextEditingController.text)
-          .then((value) {
+      _databaseMethods
+          .getUserByUserEmail(_emailTextEditingController.text)
+          .then((value) async {
         snapshotUserInfo = value;
-        HelperFunctions.saveUserEmailSharedPreference(
+        return await HelperFunctions.saveUserEmailSharedPreference(
             snapshotUserInfo.documents[0].data["name"]);
       });
 
-      authMethods
-          .signInWithEmailAndPassword(emailTextEditingController.text,
-              passwordTextEditingController.text)
+      _authMethods
+          .signInWithEmailAndPassword(_emailTextEditingController.text,
+              _passwordTextEditingController.text)
           .then((value) {
         if (value != null) {
           HelperFunctions.saveUserLoggedInSharedPreference(true);
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => ChatRoom()));
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => ChatRoomScreen()));
         }
       });
     }
@@ -79,14 +85,15 @@ class _SignInState extends State<SignIn> {
                   child: Column(
                     children: [
                       TextFormField(
-                        validator: (value) {
+                        validator: emailValidator,
+                        /*validator: (value) {
                           return RegExp(
                                       r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                                   .hasMatch(value)
                               ? null
                               : AppText.emailValidatorText;
-                        },
-                        controller: emailTextEditingController,
+                        },*/
+                        controller: _emailTextEditingController,
                         style: Theme.of(context).textTheme.bodyText1,
                         decoration: InputDecoration(
                           hintText: AppText.emailText,
@@ -99,7 +106,7 @@ class _SignInState extends State<SignIn> {
                               ? null
                               : AppText.passwordValidatorText;
                         },
-                        controller: passwordTextEditingController,
+                        controller: _passwordTextEditingController,
                         style: Theme.of(context).textTheme.bodyText1,
                         decoration: InputDecoration(
                           hintText: AppText.passwordText,
@@ -118,9 +125,7 @@ class _SignInState extends State<SignIn> {
                 ),
                 Divider(height: 22),
                 GestureDetector(
-                  onTap: () {
-                    signIn();
-                  },
+                  onTap: () => signIn(),
                   child: Container(
                     alignment: Alignment.center,
                     width: MediaQuery.of(context).size.width,

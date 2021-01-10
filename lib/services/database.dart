@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:logger/logger.dart';
 
 class DatabaseMethods {
-  getUserByUserName(String username) async {
+  final Logger _logger = Logger();
+
+  Future<QuerySnapshot> getUserByUserName(String username) async {
     return await Firestore.instance
         .collection("users")
         .where(
@@ -11,7 +14,7 @@ class DatabaseMethods {
         .getDocuments();
   }
 
-  getUserByUserEmail(String userEmail) async {
+  Future<QuerySnapshot> getUserByUserEmail(String userEmail) async {
     return await Firestore.instance
         .collection("users")
         .where(
@@ -21,19 +24,19 @@ class DatabaseMethods {
         .getDocuments();
   }
 
-  uploadUserInfo(userMap) {
-    Firestore.instance.collection("users").add(userMap).catchError((e) {
-      print(e.toString());
+  Future<void> uploadUserInfo(userMap) async {
+    await Firestore.instance.collection("users").add(userMap).catchError((e) {
+      _logger.e(e.toString());
     });
   }
 
-  createChatRoom(String chatroomId, chatRoomMap) {
-    Firestore.instance
+  Future<void> createChatRoom(String chatroomId, chatRoomMap) async {
+    await Firestore.instance
         .collection("ChatRoom")
         .document(chatroomId)
         .setData(chatRoomMap)
         .catchError((e) {
-      print(e.toString());
+      _logger.e(e.toString());
     });
   }
 }

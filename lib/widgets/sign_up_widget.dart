@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pso_messanger/helper/helper_functions.dart';
+import '../helper/helper_functions.dart';
 import '../services/database.dart';
 import '../widgets/appbar_widget.dart';
 import '../configuration/app_text.dart';
@@ -9,53 +9,55 @@ import '../configuration/app_path.dart';
 import '../configuration/app_colors.dart';
 import '../services/auth.dart';
 
-class SignUp extends StatefulWidget {
+class SignUpWidget extends StatefulWidget {
   final Function _toggle;
 
-  SignUp({
+  SignUpWidget({
     @required Function toggle,
   }) : _toggle = toggle;
 
   @override
-  _SignUpState createState() => _SignUpState();
+  _SignUpWidgetState createState() => _SignUpWidgetState();
 }
 
-class _SignUpState extends State<SignUp> {
+class _SignUpWidgetState extends State<SignUpWidget> {
   bool isLoading = false;
 
-  AuthMethods authMethods = AuthMethods();
-  DatabaseMethods databaseMethods = DatabaseMethods();
+  AuthMethods _authMethods = AuthMethods();
+  DatabaseMethods _databaseMethods = DatabaseMethods();
 
   final formKey = GlobalKey<FormState>();
 
-  TextEditingController userNameTextEditingController = TextEditingController();
-  TextEditingController emailTextEditingController = TextEditingController();
-  TextEditingController passwordTextEditingController = TextEditingController();
+  TextEditingController _userNameTextEditingController =
+      TextEditingController();
+  TextEditingController _emailTextEditingController = TextEditingController();
+  TextEditingController _passwordTextEditingController =
+      TextEditingController();
 
-  signUp() {
+  void signUp() {
     if (formKey.currentState.validate()) {
       Map<String, String> userInfoMap = {
-        "name": userNameTextEditingController.text,
-        "email": emailTextEditingController.text
+        "name": _userNameTextEditingController.text,
+        "email": _emailTextEditingController.text
       };
 
       HelperFunctions.saveUserEmailSharedPreference(
-          emailTextEditingController.text);
+          _emailTextEditingController.text);
       HelperFunctions.saveUserNameSharedPreference(
-          userNameTextEditingController.text);
+          _userNameTextEditingController.text);
 
       setState(() {
         isLoading = true;
       });
 
-      authMethods
-          .singUpWithEmailAndPassword(emailTextEditingController.text,
-              passwordTextEditingController.text)
+      _authMethods
+          .singUpWithEmailAndPassword(_emailTextEditingController.text,
+              _passwordTextEditingController.text)
           .then((value) {
-        databaseMethods.uploadUserInfo(userInfoMap);
+        _databaseMethods.uploadUserInfo(userInfoMap);
         HelperFunctions.saveUserLoggedInSharedPreference(true);
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => ChatRoom()));
+            context, MaterialPageRoute(builder: (context) => ChatRoomScreen()));
       });
     }
   }
@@ -87,7 +89,7 @@ class _SignUpState extends State<SignUp> {
                                     ? AppText.usernameValidatorText
                                     : null;
                               },
-                              controller: userNameTextEditingController,
+                              controller: _userNameTextEditingController,
                               style: Theme.of(context).textTheme.bodyText1,
                               decoration: InputDecoration(
                                 hintText: AppText.usernameText,
@@ -101,7 +103,7 @@ class _SignUpState extends State<SignUp> {
                                     ? null
                                     : AppText.emailValidatorText;
                               },
-                              controller: emailTextEditingController,
+                              controller: _emailTextEditingController,
                               style: Theme.of(context).textTheme.bodyText1,
                               decoration: InputDecoration(
                                 hintText: AppText.emailText,
@@ -114,7 +116,7 @@ class _SignUpState extends State<SignUp> {
                                     ? null
                                     : AppText.passwordValidatorText;
                               },
-                              controller: passwordTextEditingController,
+                              controller: _passwordTextEditingController,
                               style: Theme.of(context).textTheme.bodyText1,
                               decoration: InputDecoration(
                                 hintText: AppText.passwordText,
@@ -126,9 +128,7 @@ class _SignUpState extends State<SignUp> {
                       Divider(height: 22),
                       Divider(height: 22),
                       GestureDetector(
-                        onTap: () {
-                          signUp();
-                        },
+                        onTap: () => signUp(),
                         child: Container(
                           alignment: Alignment.center,
                           width: MediaQuery.of(context).size.width,

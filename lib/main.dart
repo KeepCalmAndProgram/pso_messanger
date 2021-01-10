@@ -4,9 +4,7 @@ import './configuration/app_colors.dart';
 import './widgets/sign_up_widget.dart';
 import './widgets/sign_in_widget.dart';
 
-void main() {
-  runApp(MyApp());
-}
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.

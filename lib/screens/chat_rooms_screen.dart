@@ -1,17 +1,29 @@
 import 'package:flutter/material.dart';
+import '../helper/helper_functions.dart';
+import '../helper/user_constants.dart';
 import '../widgets/search_widget.dart';
 import '../helper/authenticate_helper.dart';
 import '../services/auth.dart';
 import '../configuration/app_colors.dart';
 import '../configuration/app_path.dart';
 
-class ChatRoom extends StatefulWidget {
+class ChatRoomScreen extends StatefulWidget {
   @override
-  _ChatRoomState createState() => _ChatRoomState();
+  _ChatRoomScreenState createState() => _ChatRoomScreenState();
 }
 
-class _ChatRoomState extends State<ChatRoom> {
+class _ChatRoomScreenState extends State<ChatRoomScreen> {
   AuthMethods authMethods = AuthMethods();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  void _getUserInfo() async {
+    UserConstants.username =
+        await HelperFunctions.getUserNameSharedPreference();
+  }
 
   void _signOutOnTap() {
     authMethods.signOut();
@@ -42,7 +54,7 @@ class _ChatRoomState extends State<ChatRoom> {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.search),
         onPressed: () => Navigator.push(
-            context, MaterialPageRoute(builder: (context) => SearchScreen())),
+            context, MaterialPageRoute(builder: (context) => SearchWidget())),
       ),
     );
   }

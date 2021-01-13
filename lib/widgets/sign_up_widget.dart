@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../helper/helper_functions.dart';
+import '../services/database.dart';
 import '../widgets/appbar_widget.dart';
 import '../configuration/app_text.dart';
 import '../screens/chat_rooms_screen.dart';
@@ -7,38 +9,55 @@ import '../configuration/app_path.dart';
 import '../configuration/app_colors.dart';
 import '../services/auth.dart';
 
-class SignUp extends StatefulWidget {
-  final Function toggle;
-  SignUp(this.toggle);
+class SignUpWidget extends StatefulWidget {
+  final Function _toggle;
+
+  SignUpWidget({
+    @required Function toggle,
+  }) : _toggle = toggle;
 
   @override
-  _SignUpState createState() => _SignUpState();
+  _SignUpWidgetState createState() => _SignUpWidgetState();
 }
 
-class _SignUpState extends State<SignUp> {
+class _SignUpWidgetState extends State<SignUpWidget> {
   bool isLoading = false;
 
-  AuthMethods authMethods = new AuthMethods();
+  AuthMethods _authMethods = AuthMethods();
+  DatabaseMethods _databaseMethods = DatabaseMethods();
 
   final formKey = GlobalKey<FormState>();
-  TextEditingController userNameTextEditingController =
-      new TextEditingController();
-  TextEditingController emailTextEditingController =
-      new TextEditingController();
-  TextEditingController passwordTextEditingController =
-      new TextEditingController();
 
-  SignMeUp() {
+  TextEditingController _userNameTextEditingController =
+      TextEditingController();
+  TextEditingController _emailTextEditingController = TextEditingController();
+  TextEditingController _passwordTextEditingController =
+      TextEditingController();
+
+  void signUp() {
     if (formKey.currentState.validate()) {
+      Map<String, String> userInfoMap = {
+        "name": _userNameTextEditingController.text,
+        "email": _emailTextEditingController.text
+      };
+
+      HelperFunctions.saveUserEmailSharedPreference(
+          _emailTextEditingController.text);
+      HelperFunctions.saveUserNameSharedPreference(
+          _userNameTextEditingController.text);
+
       setState(() {
         isLoading = true;
       });
-      authMethods
-          .singUpWithEmailAndPassword(emailTextEditingController.text,
-              passwordTextEditingController.text)
+
+      _authMethods
+          .singUpWithEmailAndPassword(_emailTextEditingController.text,
+              _passwordTextEditingController.text)
           .then((value) {
+        _databaseMethods.uploadUserInfo(userInfoMap);
+        HelperFunctions.saveUserLoggedInSharedPreference(true);
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => ChatRoom()));
+            context, MaterialPageRoute(builder: (context) => ChatRoomScreen()));
       });
     }
   }
@@ -70,7 +89,7 @@ class _SignUpState extends State<SignUp> {
                                     ? AppText.usernameValidatorText
                                     : null;
                               },
-                              controller: userNameTextEditingController,
+                              controller: _userNameTextEditingController,
                               style: Theme.of(context).textTheme.bodyText1,
                               decoration: InputDecoration(
                                 hintText: AppText.usernameText,
@@ -84,7 +103,7 @@ class _SignUpState extends State<SignUp> {
                                     ? null
                                     : AppText.emailValidatorText;
                               },
-                              controller: emailTextEditingController,
+                              controller: _emailTextEditingController,
                               style: Theme.of(context).textTheme.bodyText1,
                               decoration: InputDecoration(
                                 hintText: AppText.emailText,
@@ -97,7 +116,7 @@ class _SignUpState extends State<SignUp> {
                                     ? null
                                     : AppText.passwordValidatorText;
                               },
-                              controller: passwordTextEditingController,
+                              controller: _passwordTextEditingController,
                               style: Theme.of(context).textTheme.bodyText1,
                               decoration: InputDecoration(
                                 hintText: AppText.passwordText,
@@ -109,9 +128,7 @@ class _SignUpState extends State<SignUp> {
                       Divider(height: 22),
                       Divider(height: 22),
                       GestureDetector(
-                        onTap: () {
-                          SignMeUp();
-                        },
+                        onTap: () => signUp(),
                         child: Container(
                           alignment: Alignment.center,
                           width: MediaQuery.of(context).size.width,
@@ -150,7 +167,7 @@ class _SignUpState extends State<SignUp> {
                           Text(AppText.haveAccountText,
                               style: Theme.of(context).textTheme.bodyText2),
                           GestureDetector(
-                            onTap: () => widget.toggle(),
+                            onTap: () => widget._toggle(),
                             child: Container(
                               padding: EdgeInsets.symmetric(vertical: 8),
                               child: Text(

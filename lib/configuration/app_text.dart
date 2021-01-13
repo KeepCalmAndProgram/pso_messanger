@@ -21,4 +21,7 @@ class AppText {
 
   static const String haveAccountText = "Already have account? ";
   static const String dontHaveAccountText = "Don't have account? ";
+
+  static const String messageText = "Message";
+  static const String searchUsernameText = "search username...";
 }

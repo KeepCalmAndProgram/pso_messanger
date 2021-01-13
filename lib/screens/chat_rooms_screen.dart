@@ -17,6 +17,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
 
   @override
   void initState() {
+    _getUserInfo();
     super.initState();
   }
 

@@ -42,16 +42,16 @@ class _SignInWidgetState extends State<SignInWidget> {
       HelperFunctions.saveUserEmailSharedPreference(
           _emailTextEditingController.text);
 
-      setState(() {
-        isLoading = true;
-      });
-
       _databaseMethods
           .getUserByUserEmail(_emailTextEditingController.text)
           .then((value) async {
         snapshotUserInfo = value;
-        return await HelperFunctions.saveUserEmailSharedPreference(
+        return await HelperFunctions.saveUserNameSharedPreference(
             snapshotUserInfo.documents[0].data["name"]);
+      });
+
+      setState(() {
+        isLoading = true;
       });
 
       _authMethods

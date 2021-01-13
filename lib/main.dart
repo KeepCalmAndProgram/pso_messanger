@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import './helper/helper_functions.dart';
+import './screens/chat_rooms_screen.dart';
+import './widgets/blank_widget.dart';
 import './helper/authenticate_helper.dart';
 import './configuration/app_colors.dart';
 import './widgets/sign_up_widget.dart';
@@ -6,8 +9,29 @@ import './widgets/sign_in_widget.dart';
 
 void main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   // This widget is the root of your application.
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool _userIsLoggedIn = false;
+
+  @override
+  void initState() {
+    getLoggedInState();
+    super.initState();
+  }
+
+  getLoggedInState() async {
+    await HelperFunctions.getUserLoggedInSharedPreference().then((value) {
+      setState(() {
+        _userIsLoggedIn = value;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -38,7 +62,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: AuthenticateHelper(),
+      home: _userIsLoggedIn ? ChatRoomScreen() : AuthenticateHelper(),
     );
   }
 }

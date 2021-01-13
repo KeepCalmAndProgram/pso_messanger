@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:pso_messanger/helper/helper_functions.dart';
 import '../helper/user_constants.dart';
 import '../screens/conversation_screen.dart';
 import '../configuration/app_text.dart';
@@ -28,19 +29,6 @@ class _SearchWidgetState extends State<SearchWidget> {
           searchSnapshot = value;
         });
       });
-
-  createChatroomAndStartConversation(String userName) {
-    String chatRoomId = _getChatRoomId(userName, UserConstants.username);
-
-    List<String> users = [userName, UserConstants.username];
-    Map<String, dynamic> chatRoomMap = {
-      "users": users,
-      "chatroomId": chatRoomId
-    };
-    _databaseMethods.createChatRoom(chatRoomId, chatRoomMap);
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => ConversationScreen()));
-  }
 
   Widget _buildSearchList() {
     return searchSnapshot != null
@@ -94,10 +82,11 @@ class _SearchWidgetState extends State<SearchWidget> {
                       controller: _searchTextEdittingController,
                       style: TextStyle(color: AppColors.primaryColor),
                       decoration: InputDecoration(
-                          hintText: AppText.searchUsernameText,
-                          hintStyle:
-                              TextStyle(color: AppColors.primarySearchBarColor),
-                          border: InputBorder.none),
+                        hintText: AppText.searchUsernameText,
+                        hintStyle:
+                            TextStyle(color: AppColors.primarySearchBarColor),
+                        border: InputBorder.none,
+                      ),
                     ),
                   ),
                 ],
@@ -110,18 +99,3 @@ class _SearchWidgetState extends State<SearchWidget> {
     );
   }
 }
-
-String _getChatRoomId(String a, String b) {
-  if (a.substring(0, 1).codeUnitAt(0) > b.substring(0, 1).codeUnitAt(0)) {
-    return "$b\_$a";
-  } else {
-    return "$a\_$b";
-  }
-}
-/*getChatRoomId(String a, String b){
-  if(a.substring(0,1).codeUnitAt(0) > b.substring(0,1).codeUnitAt(0)) {
-    return "$b\_$a";
-  }else {
-    return "$a\_$b";
-  }
-}*/
